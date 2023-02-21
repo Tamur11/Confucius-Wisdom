@@ -49,6 +49,15 @@ async def on_ready():
         print("Noon wisdom task started.")
 
 
+async def bestow_wisdom(channel):
+    response = random.choice(all_pins)
+    content_format = ""
+    if response.content:
+        content_format = ' "' + response.content + '"'
+    await channel.send('Confucius say: ' + content_format, files=[await f.to_file() for f in response.attachments])
+    await channel.send(response.jump_url)
+
+
 # on message commands
 @client.event
 async def on_message(message):
@@ -56,13 +65,7 @@ async def on_message(message):
         return
 
     if message.content.lower() == 'confucius bestow upon me your wisdom':
-        response = random.choice(all_pins)
-        content_format = ""
-        if response.content:
-            content_format = ' "' + response.content + '"'
-        await message.channel.send('Confucius say: ' + content_format,
-                                   files=[await f.to_file() for f in response.attachments])
-        await message.channel.send(response.jump_url)
+        await bestow_wisdom(message.channel)
 
     elif message.content.lower() == 'confucius how big is your brain':
         await message.channel.send('As large as ' + str(len(all_pins)) + ' pins.')
@@ -74,13 +77,7 @@ async def midnight_wisdom():
     print("Attempting to send midnight wisdom.")
     channel = client.get_channel(1037366923324838008)
 
-    response = random.choice(all_pins)
-    content_format = ""
-    if response.content:
-        content_format = ' "' + response.content + '"'
-    await channel.send('Confucius say: ' + content_format,
-                       files=[await f.to_file() for f in response.attachments])
-    await channel.send(response.jump_url)
+    bestow_wisdom(channel)
 
     print("Midnight wisdom sent.")
 
@@ -91,13 +88,7 @@ async def noon_wisdom():
     print("Attempting to send noon wisdom.")
     channel = client.get_channel(1037366923324838008)
 
-    response = random.choice(all_pins)
-    content_format = ""
-    if response.content:
-        content_format = ' "' + response.content + '"'
-    await channel.send('Confucius say: ' + content_format,
-                       files=[await f.to_file() for f in response.attachments])
-    await channel.send(response.jump_url)
+    bestow_wisdom(channel)
 
     print("Noon wisdom sent.")
 
