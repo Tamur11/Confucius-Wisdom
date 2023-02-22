@@ -38,7 +38,7 @@ async def get_pins():
 
 @client.event
 async def on_ready():
-    get_pins()
+    await get_pins()
 
     # start daily wisdom on ready
     if not midnight_wisdom.is_running():
@@ -54,6 +54,7 @@ async def bestow_wisdom(channel):
     content_format = ""
     if response.content:
         content_format = ' "' + response.content + '"'
+    content_format.replace('@', '@ ')
     await channel.send('Confucius say: ' + content_format, files=[await f.to_file() for f in response.attachments])
     await channel.send(response.jump_url)
 
@@ -77,7 +78,7 @@ async def midnight_wisdom():
     print("Attempting to send midnight wisdom.")
     channel = client.get_channel(1037366923324838008)
 
-    bestow_wisdom(channel)
+    await bestow_wisdom(channel)
 
     print("Midnight wisdom sent.")
 
@@ -88,7 +89,7 @@ async def noon_wisdom():
     print("Attempting to send noon wisdom.")
     channel = client.get_channel(1037366923324838008)
 
-    bestow_wisdom(channel)
+    await bestow_wisdom(channel)
 
     print("Noon wisdom sent.")
 
