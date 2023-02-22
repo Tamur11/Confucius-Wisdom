@@ -54,6 +54,7 @@ async def bestow_wisdom(channel):
     content_format = ""
     if response.content:
         content_format = ' "' + response.content + '"'
+    replace(content_format, '@', '@ ')
     await channel.send('Confucius say: ' + content_format, files=[await f.to_file() for f in response.attachments])
     await channel.send(response.jump_url)
 
