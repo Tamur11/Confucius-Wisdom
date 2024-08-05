@@ -16,6 +16,8 @@ on:
 env:
   IMAGE_NAME: confucius-wisdom
 
+permissions: write-all
+
 jobs:
   push:
     runs-on: ubuntu-latest
